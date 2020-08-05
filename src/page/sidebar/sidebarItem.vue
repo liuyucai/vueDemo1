@@ -9,12 +9,13 @@
       <el-submenu v-else-if="item.isParent"
                   :index="item.id">
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">{{item.menuName}}</span>
+          <i class="el-icon-menu"></i>
+          <span>{{item.menuName}}</span>
         </template>
-        <template v-for="child in item.child">
-          <sidebar-item :menu="[child]"></sidebar-item>
-        </template>
+<!--        <template v-for="child in item.child">-->
+<!--          <sidebar-item :menu="[child]"></sidebar-item>-->
+<!--        </template>-->
+        <sidebar-item :menu="item.child"></sidebar-item>
       </el-submenu>
     </template>
   </div>

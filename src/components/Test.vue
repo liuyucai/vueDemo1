@@ -72,12 +72,12 @@
 <!--        </el-menu-item>-->
 <!--      </el-menu>-->
 <!--    </div>-->
+    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+      <el-radio-button :label="false">展开</el-radio-button>
+      <el-radio-button :label="true">收起</el-radio-button>
+    </el-radio-group>
     <div style="width: 200px;background-color:#545c64">
-      <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-        <el-radio-button :label="false">展开</el-radio-button>
-        <el-radio-button :label="true">收起</el-radio-button>
-      </el-radio-group>
-      <el-menu default-active="1-4-1"
+      <el-menu
          class="el-menu-vertical-demo"
          @open="handleOpen"
          @close="handleClose"
@@ -158,7 +158,19 @@ export default {
         {
           menuName:"床位管理",
           id:4,
-          isParent:false,
+          isParent:true,
+          child:[
+            {
+              menuName:"大床",
+              id:11,
+              isParent:false,
+            },
+            {
+              menuName:"小床",
+              id:12,
+              isParent:false,
+            }
+          ]
         }
       ]
     }

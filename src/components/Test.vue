@@ -104,7 +104,7 @@
 </style>
 
 <script>
-  import sidebarItem from "../page/sidebar/sidebarItem";
+  import sidebarItem from "../page/index/sidebar/sidebarItem";
 export default {
   name: 'Test',
   components: {sidebarItem},

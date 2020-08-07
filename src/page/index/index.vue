@@ -1,49 +1,39 @@
 <template>
-    <div>
-<!--      <div style="float: left;width: 200px">-->
-<!--        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">-->
-<!--          <el-radio-button :label="false">展开</el-radio-button>-->
-<!--          <el-radio-button :label="true">收起</el-radio-button>-->
-<!--        </el-radio-group>-->
-<!--        <div style="width: 200px;background-color:#545c64">-->
-<!--          <el-menu-->
-<!--            class="el-menu-vertical-demo"-->
-<!--            @open="handleOpen"-->
-<!--            @close="handleClose"-->
-<!--            :collapse="isCollapse"-->
-<!--            background-color="#545c64"-->
-<!--            text-color="#fff"-->
-<!--            active-text-color="#ffd04b"-->
-<!--            collapse-transition="true"-->
-<!--            router-->
-<!--          >-->
-<!--            <sidebar-item :menu="menu"></sidebar-item>-->
-<!--          </el-menu>-->
-<!--        </div>-->
-<!--      </div>-->
-      <div style="float: left;background-color: #cccccc;width: 400px;height: 400px">
-        <router-view class="avue-view"/>
+    <div class="avue-contail">
+      <div class="avue-header">
+        <!-- 顶部导航栏 -->
+        <top/>
+      </div>
+      <div class="avue-layout">
+        <div class="avue-left" style="float: left">
+          <!-- 左侧导航栏 -->
+          <sidebar></sidebar>
+        </div>
+        <div class="avue-main" style="float: left;background-color: #cccccc;width: 400px;height: 400px">
+          <!-- 主体视图层 -->
+          <el-scrollbar style="height:100%">
+            <keep-alive>
+              <router-view class="avue-view"/>
+            </keep-alive>
+          </el-scrollbar>
+        </div>
       </div>
     </div>
 </template>
 
 <script>
-
+  import top from "@/page/index/top/index";
+  import sidebar from "@/page/index/sidebar/index";
   export default {
-    name: 'index',
+    name: 'sidebarContent',
+    components: {
+      top,
+      sidebar,
+    },
     data() {
       return {
 
       }
-    },
-    created() {
-
-    },
-    destroyed() {
-
-    },
-    mounted() {
-
     }
   }
 </script>

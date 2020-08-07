@@ -1,6 +1,5 @@
 <template>
-<!--    <index></index>-->
-  <h>first</h>
+  <h1>first</h1>
 </template>
 
 <style>
@@ -14,10 +13,8 @@
 </style>
 
 <script>
-  import index from "../page/index/index";
 export default {
   name: 'first',
-  // components: {index},
   data () {
     return {
       msg: '主页',

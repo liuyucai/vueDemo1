@@ -3,8 +3,6 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Test from '@/components/Test'
 import Home from '@/components/Home'
-import First from '@/view/first'
-import Second from '@/view/second'
 
 Vue.use(Router)
 

@@ -1,6 +1,6 @@
 <template>
 <!--    <index></index>-->
-  <h>second</h>
+  <h1>second</h1>
 </template>
 
 <style>
@@ -14,14 +14,11 @@
 </style>
 
 <script>
-  import index from "../page/index/index";
 export default {
   name: 'second',
-  // components: {index},
   data () {
     return {
       msg: '主页',
-      isCollapse: true,
       menu:[
         {
           menuName:"设备管理",

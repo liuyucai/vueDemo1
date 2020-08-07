@@ -7,14 +7,11 @@
         <span slot="title">{{item.menuName}}</span>
       </el-menu-item>
       <el-submenu v-else-if="item.isParent"
-                  :index="item.id">
+                  :index="item.id+''">
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span>{{item.menuName}}</span>
         </template>
-        <!--        <template v-for="child in item.child">-->
-        <!--          <sidebar-item :menu="[child]"></sidebar-item>-->
-        <!--        </template>-->
         <sidebar-item :menu="item.child"></sidebar-item>
       </el-submenu>
     </template>
@@ -30,29 +27,19 @@
     props: {
       menu: {
         type: Array
-      },
-      screen: {
-        type: Number
-      },
-      first: {
-        type: Boolean,
-        default: false
-      },
-      props: {
-        type: Object,
-        default: () => {
-          return {};
-        }
-      },
-      collapse: {
-        type: Boolean
       }
     },
-    created() {},
-    mounted() {},
-    computed: {
-    },
     methods: {
+      validateType(val) {
+        if(val == "true" || val == true){
+          return true;
+        }else{
+          return false;
+        }
+      }
     }
+
+
+
   };
 </script>

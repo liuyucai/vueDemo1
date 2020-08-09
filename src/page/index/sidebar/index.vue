@@ -1,7 +1,7 @@
 <template>
-  <div style="width: 200px">
-    <el-button @click="setCollapse()">收起</el-button>
-    <div style="width: 200px;background-color:#545c64">
+  <div>
+<!--    <el-button @click="setCollapse()" style="width: 40px">收起</el-button>-->
+    <div style="background-color:#545c64">
       <el-menu
         class="el-menu-vertical-demo"
         @open="handleOpen"
@@ -10,8 +10,6 @@
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
-        :collapse-transition=true
-        mode="vertical"
         router
       >
         <sidebar-item :menu="menu"></sidebar-item>

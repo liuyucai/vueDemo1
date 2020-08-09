@@ -1,24 +1,21 @@
 <template>
-
+  <el-button @click="setCollapse()" style="width: 40px">收起</el-button>
 </template>
 
 <script>
+    import sidebar from '@/page/index/sidebar/index';
 
   export default {
-    name: 'index',
+    name: 'top',
     data() {
       return {
 
       }
     },
-    created() {
-
+    method: {
+        setCollapse() {
+            this.$refs.sidebar.setCollapse();
+        },
     },
-    destroyed() {
-
-    },
-    mounted() {
-
-    }
   }
 </script>

@@ -20,15 +20,16 @@
 <!--      </div>-->
 <!--    </div>-->
 
-    <el-container>
-      <el-aside width="200px">
+    <el-container :style="{height:fullHeight+'px'}">
+      <el-aside width="auto"
+                @mouseenter.native="collapseOpen"
+                @mouseleave.native="collapseClose">
         <!-- 左侧导航栏 -->
-        <sidebar></sidebar>
+        <sidebar ref="vchild"></sidebar>
       </el-aside>
       <el-container>
         <el-header>
-<!--          <el-button @click="setCollapse()" style="width: 40px">收起</el-button>-->
-          <top></top>
+          <top @parentMethod="setCollapse"></top>
         </el-header>
         <el-main>
           <keep-alive>
@@ -51,16 +52,14 @@
     },
     data() {
       return {
-
+        fullHeight:document.documentElement.clientHeight
       }
+    },
+    mounted() {
     },
     methods: {
         setCollapse() {
-            if(this.isCollapse){
-                this.isCollapse = false;
-            }else{
-                this.isCollapse = true;
-            }
+          this.$refs.vchild.setCollapse();
         }
       }
   }

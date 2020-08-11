@@ -7,9 +7,17 @@
     width: 200px;
     min-height: 400px;
   }
-  /*.el-menu-item,.el-submenu__title{*/
-  /*  text-align: left;*/
-  /*}*/
+  .el-menu-item,.el-submenu__title{
+    text-align: left;
+  }
+  .el-menu{
+    /*height: 100%;*/
+    /*border-right: solid 1px #e6e6e6;*/
+    border-right: 0;
+  }
+  .el-header{
+    padding: 0;
+  }
   .el-menu--collapse>.el-menu-item span, .el-menu--collapse>.menu-wrapper>.el-submenu>.el-submenu__title span {
     height: 0;
     width: 0;
@@ -24,17 +32,15 @@
 
 <script>
   import mainContent from "../page/index/index";
-
-export default {
-  name: 'Home',
-  components: {mainContent},
-  data() {
-    return {
-      msg: '主页',
+  export default {
+    name: 'Home',
+    components: {mainContent},
+    data() {
+      return {
+        msg: '主页',
+      }
+    },
+    methods: {
     }
-  },
-  methods: {
   }
-}
 </script>
-

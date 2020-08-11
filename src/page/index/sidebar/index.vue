@@ -1,7 +1,10 @@
 <template>
-  <div>
-<!--    <el-button @click="setCollapse()" style="width: 40px">收起</el-button>-->
-    <div style="background-color:#545c64">
+  <div style="height: 100%">
+    <!--    <el-button @click="setCollapse()" style="width: 40px">收起</el-button>-->
+    <div style="background-color:#545c64;height: 100%">
+      <div style="height: 60px;" class="logo-box">
+          VueDemo1
+      </div>
       <el-menu
         class="el-menu-vertical-demo"
         @open="handleOpen"
@@ -17,9 +20,15 @@
     </div>
   </div>
 </template>
+<style>
+  .logo-box{
+    text-align: center;
+    line-height: 60px;
+    color: #fff;
+  }
+</style>
 
 <script>
-
   import sidebarItem from "./sidebarItem";
   export default {
     name: 'sidebar',
@@ -96,6 +105,8 @@
         ]
       }
     },
+    mounted() {
+    },
     methods: {
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
@@ -109,18 +120,7 @@
         }else{
           this.isCollapse = true;
         }
-
-      },
-      validateType(val) {
-        console.log("......");
-        if(val == "true" || val == true){
-          return true;
-        }else{
-          return false;
-        }
       }
     }
   }
 </script>
-
-

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-wrapper">
+  <div class="menu-wrapper" style="overflow: hidden">
     <template v-for="item in menu">
       <el-menu-item v-if="!item.isParent"
                     :index="item.path">
@@ -30,16 +30,7 @@
       }
     },
     methods: {
-      validateType(val) {
-        if(val == "true" || val == true){
-          return true;
-        }else{
-          return false;
-        }
-      }
+
     }
-
-
-
   };
 </script>

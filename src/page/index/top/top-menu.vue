@@ -10,15 +10,6 @@
       return {
 
       }
-    },
-    created() {
-
-    },
-    destroyed() {
-
-    },
-    mounted() {
-
     }
   }
 </script>

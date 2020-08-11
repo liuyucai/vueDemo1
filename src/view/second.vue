@@ -9,7 +9,7 @@
     min-height: 400px;
   }
   .el-menu-item,.el-submenu__title{
-    text-align: left;
+    /*text-align: left;*/
   }
 </style>
 

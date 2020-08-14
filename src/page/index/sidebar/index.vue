@@ -3,7 +3,10 @@
     <!--    <el-button @click="setCollapse()" style="width: 40px">收起</el-button>-->
     <div style="background-color:#545c64;height: 100%">
       <div style="height: 60px;" class="logo-box">
-          VueDemo1
+        <a href="#">
+          <img src="@/images/app_img.jpg">
+          <h1 v-bind:class="displayStatus">vueDemo</h1>
+        </a>
       </div>
       <el-menu
         class="el-menu-vertical-demo"
@@ -26,6 +29,29 @@
     line-height: 60px;
     color: #fff;
   }
+  .logo-box a{
+    display: block;
+  }
+  .logo-box a img{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+  }
+  .logo-box a h1.toDisplay{
+    display: inline-block;
+    margin: 0 0 0 12px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 20px;
+    vertical-align: middle;
+    animation: fade-in;
+    animation-duration: .3s;
+  }
+  .noDisplay{
+    display: none;
+  }
+
 </style>
 
 <script>
@@ -37,6 +63,11 @@
       return {
         msg: '主页',
         isCollapse: false,
+        // toDisplay:toDisplay,
+        displayStatus: {
+          toDisplay: true,
+          noDisplay: false
+        },
         menu:[
           {
             menuName:"设备管理",

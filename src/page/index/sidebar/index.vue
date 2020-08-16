@@ -12,6 +12,7 @@
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
+        @select="menuSelect"
         :collapse="isCollapse"
         background-color="#545c64"
         text-color="#fff"
@@ -145,10 +146,19 @@
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       },
+      menuSelect(index,indexpath){
+          console.log("......"+index);
+          console.log("......"+indexpath);
+      },
       setCollapse() {
         if(this.isCollapse){
+          this.displayStatus.noDisplay=false;
+          this.displayStatus.toDisplay=true;
           this.isCollapse = false;
         }else{
+
+          this.displayStatus.noDisplay=true;
+          this.displayStatus.toDisplay=false;
           this.isCollapse = true;
         }
       }

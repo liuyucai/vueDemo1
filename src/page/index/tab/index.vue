@@ -1,6 +1,8 @@
 <template>
   <div class="tab-nav">
-    <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+    <el-tabs v-model="editableTabsValue" type="card" closable
+             @tab-remove="removeTab"
+             @tab-click="openTag">
       <el-tab-pane
         v-for="(item, index) in editableTabs"
         :key="item.name"
@@ -36,14 +38,23 @@
     mounted() {
     },
     methods: {
-        addTab(targetName) {
-              let newTabName = ++this.tabIndex + '';
-              this.editableTabs.push({
-                  title: 'New Tab',
-                  name: newTabName,
-                  content: 'New Tab content'
-              });
-              this.editableTabsValue = newTabName;
+        // addTab(targetName) {
+        //       let newTabName = ++this.tabIndex + '';
+        //       this.editableTabs.push({
+        //           title: 'New Tab',
+        //           name: newTabName,
+        //           // content: 'New Tab content'=
+        //       });
+        //       this.editableTabsValue = newTabName;
+        // },
+        addTab(item) {
+          let newTabName = ++this.tabIndex + '';
+          this.editableTabs.push({
+            title: item.menuName,
+            // path: item.path,
+            name: newTabName,
+          });
+          // this.editableTabsValue = item.menuName;
         },
         removeTab(targetName) {
               let tabs = this.editableTabs;
@@ -61,6 +72,11 @@
 
               this.editableTabsValue = activeName;
               this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+        },
+        openTag(targetName){
+          this.$router.push({
+            path: '/home/first',
+          });
         }
     }
   }

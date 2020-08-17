@@ -4,14 +4,14 @@
                 @mouseenter.native="collapseOpen"
                 @mouseleave.native="collapseClose">
         <!-- 左侧导航栏 -->
-        <sidebar ref="vchild"></sidebar>
+        <sidebar ref="vchild" @addTab="addTab"></sidebar>
       </el-aside>
       <el-container>
         <el-header>
           <top @parentMethod="setCollapse"></top>
         </el-header>
         <el-main>
-          <tab></tab>
+          <tab ref="childtab"></tab>
           <keep-alive>
             <router-view class="avue-view"/>
           </keep-alive>
@@ -48,6 +48,10 @@
     methods: {
       setCollapse() {
          this.$refs.vchild.setCollapse();
+      },
+      addTab(item){
+        console.log("addTabParent");
+        this.$refs.childtab.addTab(item);
       },
       collapseOpen(){
 

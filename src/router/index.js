@@ -6,6 +6,13 @@ import Home from '@/components/Home'
 
 Vue.use(Router)
 
+
+//解决一个路由不能访问两次的问题
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 export default new Router({
   routes: [
     {
@@ -22,11 +29,11 @@ export default new Router({
       component: Home,
       children:[
         {
-          path: '/first',
+          path: '/home/first',
           name: 'first',
           component: () => import('@/view/first')
         },{
-          path: '/second',
+          path: '/home/second',
           name: 'second',
           component: () => import('@/view/second')
         }

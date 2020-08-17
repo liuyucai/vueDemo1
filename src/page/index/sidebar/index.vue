@@ -17,9 +17,10 @@
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
+        :default-active="activeIndex"
         router
       >
-        <sidebar-item :menu="menu"></sidebar-item>
+        <sidebar-item :menu="menu" @selectItemParentMethod1="selectItem"></sidebar-item>
       </el-menu>
     </div>
   </div>
@@ -64,6 +65,7 @@
       return {
         msg: '主页',
         isCollapse: false,
+        activeIndex:"0",
         // toDisplay:toDisplay,
         displayStatus: {
           toDisplay: true,
@@ -84,13 +86,13 @@
                     menuName:"苹果手机",
                     id:9,
                     isParent:false,
-                    path:"/first",
+                    path:"/home/first",
                   },
                   {
                     menuName:"小米手机",
                     id:10,
                     isParent:false,
-                    path:"/second",
+                    path:"/home/second",
                   }
                 ]
               },
@@ -149,6 +151,7 @@
       menuSelect(index,indexpath){
           console.log("......"+index);
           console.log("......"+indexpath);
+        this.$emit("parentMethod");
       },
       setCollapse() {
         if(this.isCollapse){
@@ -161,6 +164,16 @@
           this.displayStatus.toDisplay=false;
           this.isCollapse = true;
         }
+      },
+      selectItem(item){
+        console.log("点击菜单");
+        console.log(item);
+        this.$emit("addTab",item);
+      }
+    },
+    watch:{
+      $route(){
+        this.activeIndex = this.$route.path;
       }
     }
   }

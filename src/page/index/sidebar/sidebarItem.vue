@@ -2,7 +2,8 @@
   <div class="menu-wrapper" style="overflow: hidden">
     <template v-for="item in menu">
       <el-menu-item v-if="!item.isParent"
-                    :index="item.path">
+                    :index="item.path"
+                    @click="open(item)">
         <i class="el-icon-location"></i>
         <span slot="title">{{item.menuName}}</span>
       </el-menu-item>
@@ -12,7 +13,7 @@
           <i class="el-icon-menu"></i>
           <span>{{item.menuName}}</span>
         </template>
-        <sidebar-item :menu="item.child"></sidebar-item>
+        <sidebar-item :menu="item.child" @selectItemParentMethod1="selectItem"></sidebar-item>
       </el-submenu>
     </template>
   </div>
@@ -30,7 +31,12 @@
       }
     },
     methods: {
-
+      open(item) {
+        this.$emit("selectItemParentMethod1",item);
+      },
+      selectItem(item){
+        this.$emit("selectItemParentMethod1",item);
+      }
     }
   };
 </script>

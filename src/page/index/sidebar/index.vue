@@ -20,7 +20,7 @@
         :default-active="activeIndex"
         router
       >
-        <sidebar-item :menu="menu" @selectItemParentMethod1="selectItem"></sidebar-item>
+        <sidebar-item :menu="menu" @selectItemParentMethod="selectItem"></sidebar-item>
       </el-menu>
     </div>
   </div>
@@ -168,7 +168,7 @@
       selectItem(item){
         console.log("点击菜单");
         console.log(item);
-        this.$emit("addTab",item);
+        this.$emit("openMenu",item);
       }
     },
     watch:{

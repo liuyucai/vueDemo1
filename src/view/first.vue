@@ -1,5 +1,28 @@
 <template>
-  <h1>first</h1>
+  <div class="view-body">
+<!--    <h1>first</h1>-->
+    <div class="view-container">
+      <div class="view-main">
+        <div class="query-container">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form-item label="审批人">
+              <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+            </el-form-item>
+            <el-form-item label="活动区域">
+              <el-select v-model="formInline.region" placeholder="活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">查询</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
@@ -9,6 +32,18 @@
   }
   .el-menu-item,.el-submenu__title{
     /*text-align: left;*/
+  }
+  .view-body{
+    margin: 10px;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .view-container{
+    padding: 24px;
+  }
+  .view-main{
+    border-bottom: 1px solid #f0f2f5;
   }
 </style>
 
@@ -79,16 +114,23 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      formInline: {
+        user: '',
+        region: ''
+      },
     }
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    }
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      onSubmit() {
+          console.log('submit!');
+      }
   }
 }
 </script>

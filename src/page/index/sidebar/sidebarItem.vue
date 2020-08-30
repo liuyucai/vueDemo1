@@ -13,7 +13,7 @@
           <i class="el-icon-menu"></i>
           <span>{{item.menuName}}</span>
         </template>
-        <sidebar-item :menu="item.child" @selectItemParentMethod1="selectItem"></sidebar-item>
+        <sidebar-item :menu="item.child" @selectItemParentMethod="selectItem"></sidebar-item>
       </el-submenu>
     </template>
   </div>
@@ -32,10 +32,10 @@
     },
     methods: {
       open(item) {
-        this.$emit("selectItemParentMethod1",item);
+        this.$emit("selectItemParentMethod",item);
       },
       selectItem(item){
-        this.$emit("selectItemParentMethod1",item);
+        this.$emit("selectItemParentMethod",item);
       }
     }
   };

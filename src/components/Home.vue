@@ -40,6 +40,12 @@
         msg: '主页',
       }
     },
+    mounted() {
+          console.log("页面刷新了");
+          this.$router.push({
+              path: '/home',
+          });
+    },
     methods: {
     }
   }

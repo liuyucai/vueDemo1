@@ -21,7 +21,7 @@
           </el-scrollbar>
 <!--          </div>-->
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer style="height: 30px">作者：刘宇才  QQ:2395783668@qq.com</el-footer>
       </el-container>
     </el-container>
 </template>
@@ -38,8 +38,16 @@
     left: 0;
     width: 100%;
   }
-  .el-scrollbar__wrap{
+  .main-container>.el-scrollbar__wrap{
     overflow-x: hidden;
+  }
+  .el-footer{
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    /*box-shadow: 0px -20px 5px #888888;*/
+    border-top: 1px solid #f0f2f5;
   }
 </style>
 

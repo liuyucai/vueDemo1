@@ -15,13 +15,13 @@
               {{item.content}}
             </el-tab-pane>
           </el-tabs>
-          <el-dropdown class="avue-tags__menu" size="mini">
+          <el-dropdown class="avue-tags__menu" size="mini"  @command="handleCommand">
             <el-button type="primary" class="el-button--mini">
               更多<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>关闭其它</el-dropdown-item>
-              <el-dropdown-item>关闭全部</el-dropdown-item>
+              <el-dropdown-item command="closeOtherTab">关闭其它</el-dropdown-item>
+              <el-dropdown-item command="closeAllTab">关闭全部</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
       </div>
@@ -96,6 +96,29 @@
       mounted() {
       },
       methods: {
+          handleCommand(command) {
+              console.log(command);
+              if(command == "closeAllTab"){
+                  this.editableTabs = [{
+                      title: '首页',
+                      name: '/home',
+                  }];
+                  this.editableTabsValue='/home';
+                  this.$router.push({
+                      path: '/home',
+                  });
+              }else{ //关闭其他
+                  let tabs = this.editableTabs;
+                  console.log(this.editableTabs);
+                  for(var i=0;i<this.editableTabs.length;i++){
+                      console.log(this.editableTabs);
+                      if(this.editableTabs[i].name != this.editableTabsValue){
+                          this.editableTabs.splice(i, 1);
+                          i--;
+                      }
+                  }
+              }
+          },
           openMenu(item){
               for(var i = 0;i<this.editableTabs.length;i++){
                   if(this.editableTabs[i].name == item.path){
@@ -136,7 +159,7 @@
             this.$router.push({
                 path: targetName.name,
             });
-          }
+          },
       }
   }
 </script>

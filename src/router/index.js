@@ -36,6 +36,10 @@ export default new Router({
           path: '/home/second',
           name: 'second',
           component: () => import('@/view/second')
+        },{
+          path: '/home/orgManagement',
+          name: 'orgManagement',
+          component: () => import('@/view/orgManagement')
         }
       ]
     }

@@ -2,132 +2,107 @@
   <div class="view-body">
     <!--    <h1>first</h1>-->
     <div class="view-container">
-      <el-row>
-        <el-col :span="5" class="view-main-leftTree">
-          <div class="view-main-leftTree-filter">
-            <el-input
-              placeholder="输入关键字进行过滤"
-              v-model="orgFilterText">
-            </el-input>
-          </div>
-          <el-tree
-            class="filter-tree"
-            :data="orgTreeData"
-            :props="defaultOrgProps"
-            default-expand-all
-            :filter-node-method="orgFilterNode"
-            ref="tree">
-          </el-tree>
-        </el-col>
-        <el-col :span="19">
-          <div class="view-main">
-            <div class="query-container" v-if="queryContainerState">
-              <el-form :inline="true" :model="userForm" ref="userForm" label-position="right" label-width="100px" size="small" class="demo-form-inline">
-                <el-row>
-                  <el-col :xs="24" :sm="12" :md="8">
-                    <el-form-item label="角色名" prop="roleName">
-                      <el-input v-model="userForm.role" placeholder="角色名"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :xs="24" :sm="12" :md="8">
-                    <el-form-item >
-                      <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
-                      <el-button icon="el-icon-delete" @click="resetForm('userForm')">重置</el-button>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-form>
-            </div>
-            <el-row class="operation-dev">
-              <div style="float: left">
-                <el-button type="primary" icon="el-icon-plus" size="small" @click="dialogFormVisible = true">新增</el-button>
-              </div>
-              <div style="float: right">
-                <el-button icon="el-icon-s-operation" circle size="small" @click="drawer = true"></el-button>
-                <el-button icon="el-icon-search" circle size="small" @click="closeQueryContainer"></el-button>
-              </div>
+      <div class="view-main">
+        <div class="query-container" v-if="queryContainerState">
+          <el-form :inline="true" :model="userForm" ref="userForm" label-position="right" label-width="100px" size="small" class="demo-form-inline">
+            <el-row>
+              <el-col :xs="24" :sm="12" :md="8">
+                <el-form-item label="角色名" prop="roleName">
+                  <el-input v-model="userForm.role" placeholder="角色名"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="12" :md="8">
+                <el-form-item >
+                  <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+                  <el-button icon="el-icon-delete" @click="resetForm('userForm')">重置</el-button>
+                </el-form-item>
+              </el-col>
             </el-row>
-            <div class="table-container">
-              <template>
-                <el-table
-                  :data="tableData"
-                  border
-                  @sort-change="sortChange"
-                  @filter-change="fnFilterChangeInit"
-                  style="width: 100%;text-align: center">
-                  <el-table-column
-                    fixed
-                    type="index"
-                    label="序号"
-                    width="50">
-                  </el-table-column>
-                  <el-table-column
-                    v-if="colData[0].istrue"
-                    prop="userName"
-                    label="用户名"
-                    width="120">
-                  </el-table-column>
-                  <el-table-column
-                    v-if="colData[1].istrue"
-                    prop="role"
-                    label="用户角色"
-                    width="120">
-                  </el-table-column>
-                  <el-table-column
-                    v-if="colData[2].istrue"
-                    prop="createTime"
-                    sortable="custom"
-                    label="创建时间"
-                    width="250">
-                  </el-table-column>
-                  <el-table-column
-                    v-if="colData[3].istrue"
-                    prop="status"
-                    label="状态"
-                    :filters="status"
-                    :filter-method="filterTag"
-                    width="120">
-                  </el-table-column>
-                  <el-table-column
-                    fixed="right"
-                    label="操作">
-                    <template slot-scope="scope">
-                      <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                      <el-button type="text" size="small">编辑</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </template>
-              <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="4"
-                :page-sizes="[100, 200, 300, 400]"
-                :page-size="100"
-                layout="total, sizes, prev, pager, next, jumper"
-                background
-                :total="400">
-              </el-pagination>
-            </div>
-            <el-drawer
-              title="列显隐"
-              size="50%"
-              :visible.sync="drawer"
-              :direction="direction"
-              :before-close="handleClose">
-              <template>
-                <el-transfer
-                  @change="transferCol"
-                  :titles="[ '显示','隐藏']"
-                  v-model="generateValue"
-                  :data="generateData">
-
-                </el-transfer>
-              </template>
-            </el-drawer>
+          </el-form>
+        </div>
+        <el-row class="operation-dev">
+          <div style="float: left">
+            <el-button type="primary" icon="el-icon-plus" size="small" @click="dialogFormVisible = true">新增</el-button>
           </div>
-        </el-col>
-      </el-row>
+          <div style="float: right">
+            <el-button icon="el-icon-s-operation" circle size="small" @click="drawer = true"></el-button>
+            <el-button icon="el-icon-search" circle size="small" @click="closeQueryContainer"></el-button>
+          </div>
+        </el-row>
+        <div class="table-container">
+          <template>
+            <el-table
+              :data="tableData"
+              row-key="id"
+              border
+              @sort-change="sortChange"
+              @filter-change="fnFilterChangeInit"
+              style="width: 100%;text-align: center">
+              <el-table-column
+                v-if="colData[0].istrue"
+                prop="userName"
+                label="用户名"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                v-if="colData[1].istrue"
+                prop="role"
+                label="用户角色"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                v-if="colData[2].istrue"
+                prop="createTime"
+                sortable="custom"
+                label="创建时间"
+                width="250">
+              </el-table-column>
+              <el-table-column
+                v-if="colData[3].istrue"
+                prop="status"
+                label="状态"
+                :filters="status"
+                :filter-method="filterTag"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                  <el-button type="text" size="small">编辑</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="4"
+            :page-sizes="[100, 200, 300, 400]"
+            :page-size="100"
+            layout="total, sizes, prev, pager, next, jumper"
+            background
+            :total="400">
+          </el-pagination>
+        </div>
+        <el-drawer
+          title="列显隐"
+          size="50%"
+          :visible.sync="drawer"
+          :direction="direction"
+          :before-close="handleClose">
+          <template>
+            <el-transfer
+              @change="transferCol"
+              :titles="[ '显示','隐藏']"
+              v-model="generateValue"
+              :data="generateData">
+
+            </el-transfer>
+          </template>
+        </el-drawer>
+      </div>
       <!--      弹出框-->
       <el-dialog title="新增用户" :visible.sync="dialogFormVisible">
         <el-form :model="createUserForm">
@@ -327,6 +302,96 @@
                 formLabelWidth: '120px',
 
                 filterText: '',
+
+                defaultProps: {
+                    children: 'children',
+                    label: 'label'
+                },
+
+
+                userForm: {
+                    userName: '',
+                    role: '',
+                },
+                drawer: false,
+                generateData:[
+                    {
+                        key: 0,
+                        label: `用户名`,
+                    },{
+                        key: 1,
+                        label: `用户角色`,
+                    },{
+                        key: 2,
+                        label: `创建时间`,
+                    },{
+                        key: 3,
+                        label: `状态`,
+                    },
+                ],
+                // istrue属性存放列的状态
+                colData: [
+                    { title: '用户名', istrue: true },
+                    { title: '用户角色', istrue: true },
+                    { title: '创建时间', istrue: true },
+                    { title: '状态', istrue: true },
+                ],
+                //右边穿梭框显示的数据,元素为generateData的key
+                generateValue: [],
+
+                direction: 'rtl',
+                status:[{ text: '在线', value: '在线' }, { text: '离线', value: '离线' }],
+                tableData: [{
+                    id: 1,
+                    userName: '王小虎',
+                    role:'普通用户',
+                    createTime: '2016-05-01 12:20:54',
+                    status: '在线',
+                }, {
+                    id: 2,
+                    createTime: '2016-05-02 12:20:54',
+                    status: '在线',
+                    userName: '王小虎',
+                    role:'普通用户',
+                }, {
+                    id: 3,
+                    userName: '王小虎',
+                    role:'普通用户',
+                    status: '在线',
+                    createTime: '2016-05-03 12:20:54',
+                }, {
+                    id: 4,
+                    userName: '王小虎',
+                    role:'普通用户',
+                    createTime: '2016-05-04 12:20:54',
+                    status: '在线',
+                    children:[{
+                        id: 5,
+                        userName: '王小虎',
+                        role:'普通用户',
+                        createTime: '2016-05-05 12:20:54',
+                        status: '离线',
+                    }, {
+                        id: 6,
+                        userName: '王小虎',
+                        role:'普通用户',
+                        createTime: '2016-05-06 12:20:54',
+                        status: '在线',
+                    }]
+                }, {
+                    id: 7,
+                    userName: '王小虎',
+                    role:'普通用户',
+                    createTime: '2016-05-05 12:20:54',
+                    status: '在线',
+                }, {
+                    id: 8,
+                    userName: '王小虎',
+                    role:'普通用户',
+                    createTime: '2016-05-06 12:20:54',
+                    status: '在线',
+                }],
+                filterText: '',
                 roleTreeData: [{
                     id: 1,
                     label: '一级 1',
@@ -371,116 +436,6 @@
                         label: '二级 3-2'
                     }]
                 }],
-                defaultProps: {
-                    children: 'children',
-                    label: 'label'
-                },
-
-
-                userForm: {
-                    userName: '',
-                    role: '',
-                },
-                drawer: false,
-                generateData:[
-                    {
-                        key: 0,
-                        label: `用户名`,
-                    },{
-                        key: 1,
-                        label: `用户角色`,
-                    },{
-                        key: 2,
-                        label: `创建时间`,
-                    },{
-                        key: 3,
-                        label: `状态`,
-                    },
-                ],
-                // istrue属性存放列的状态
-                colData: [
-                    { title: '用户名', istrue: true },
-                    { title: '用户角色', istrue: true },
-                    { title: '创建时间', istrue: true },
-                    { title: '状态', istrue: true },
-                ],
-                //右边穿梭框显示的数据,元素为generateData的key
-                generateValue: [],
-
-                direction: 'rtl',
-                status:[{ text: '在线', value: '在线' }, { text: '离线', value: '离线' }],
-                tableData: [{
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-01 12:20:54',
-                    status: '在线',
-                }, {
-                    createTime: '2016-05-02 12:20:54',
-                    status: '在线',
-                    userName: '王小虎',
-                    role:'普通用户',
-                }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    status: '在线',
-                    createTime: '2016-05-03 12:20:54',
-                }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-04 12:20:54',
-                    status: '在线',
-                }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-05 12:20:54',
-                    status: '在线',
-                }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-06 12:20:54',
-                    status: '在线',
-                }],
-
-                orgFilterText: '',
-                defaultOrgProps: {
-                    children: 'children',
-                    label: 'label'
-                },
-                orgTreeData: [{
-                    id: 1,
-                    label: '一级 1',
-                    children: [{
-                        id: 4,
-                        label: '二级 1-1',
-                        children: [{
-                            id: 9,
-                            label: '三级 1-1-1'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }]
-                    }]
-                }, {
-                    id: 2,
-                    label: '一级 2',
-                    children: [{
-                        id: 5,
-                        label: '二级 2-1'
-                    }, {
-                        id: 6,
-                        label: '二级 2-2'
-                    }]
-                }, {
-                    id: 3,
-                    label: '一级 3',
-                    children: [{
-                        id: 7,
-                        label: '二级 3-1'
-                    }, {
-                        id: 8,
-                        label: '二级 3-2'
-                    }]
-                }],
             }
         },
         watch: {
@@ -488,9 +443,6 @@
             filterText(val) {
                 this.$refs.tree.filter(val);
             },
-            orgFilterText(val) {
-                this.$refs.tree.filter(val);
-            }
         },
         methods: {
             handleOpen(key, keyPath) {

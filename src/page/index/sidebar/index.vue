@@ -73,27 +73,32 @@
         },
         menu:[
           {
-            menuName:"设备管理",
+            menuName:"系统设置",
             id:1,
             isParent:true,
             child:[
               {
-                menuName:"手机设备",
+                menuName:"组织管理",
                 id:2,
                 isParent:true,
                 child:[
                   {
-                    menuName:"苹果手机",
+                    menuName:"用户管理",
                     id:9,
                     isParent:false,
                     path:"/home/first",
                   },
                   {
-                    menuName:"小米手机",
+                    menuName:"角色管理",
                     id:10,
                     isParent:false,
                     path:"/home/second",
-                  }
+                  }, {
+                    menuName:"机构管理",
+                    id:13,
+                    isParent:false,
+                    path:"/home/orgManagement",
+                    }
                 ]
               },
               {

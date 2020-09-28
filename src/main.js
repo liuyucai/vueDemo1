@@ -7,14 +7,26 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+//引入echarts
+// import echarts from 'echarts'
+import echarts from 'echarts/lib/echarts';
+import 'echarts/map/js/china.js';
+import china from 'echarts/map/json/china.json'
+
 
 //引入创建的VueX
 // import store from './store'
 
 Vue.config.productionTip = false
 
+//显示地图下面这句必须引入
+Vue.prototype.$echarts = echarts
+//以下不引入也行
+// echarts.registerMap('china', china)
+
 Vue.use(ElementUI);
 Vue.use(VueAxios,axios);
+
 
 
 /* eslint-disable no-new */

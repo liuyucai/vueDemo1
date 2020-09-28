@@ -73,71 +73,39 @@
         },
         menu:[
           {
-            menuName:"系统设置",
+            menuName:"组织管理",
             id:1,
             isParent:true,
             child:[
               {
-                menuName:"组织管理",
+                menuName:"用户管理",
                 id:2,
-                isParent:true,
-                child:[
-                  {
-                    menuName:"用户管理",
-                    id:9,
-                    isParent:false,
-                    path:"/home/first",
-                  },
-                  {
-                    menuName:"角色管理",
-                    id:10,
-                    isParent:false,
-                    path:"/home/second",
-                  }, {
-                    menuName:"机构管理",
-                    id:13,
-                    isParent:false,
-                    path:"/home/orgManagement",
-                    }
-                ]
+                isParent:false,
+                path:"/home/userManagement",
               },
               {
-                menuName:"电脑设备",
+                menuName:"角色管理",
                 id:3,
-                isParent:true,
-                child:[
-                  {
-                    menuName:"联想笔记本",
-                    id:5,
-                    isParent:false,
-                    path:"/first",
-                  },
-                  {
-                    menuName:"苹果笔记本",
-                    id:6,
-                    isParent:false,
-                    path:"/second",
-                  }
-                ]
+                isParent:false,
+                path:"/home/roleManagement",
+              }, {
+                menuName:"机构管理",
+                id:4,
+                isParent:false,
+                path:"/home/orgManagement",
               }
             ]
           },
           {
-            menuName:"床位管理",
-            id:4,
+            menuName:"系统设置",
+            id:5,
             isParent:true,
             child:[
               {
-                menuName:"大床",
-                id:11,
+                menuName:"菜单管理",
+                id:14,
                 isParent:false,
-                path:"/first",
-              },
-              {
-                menuName:"小床",
-                id:12,
-                isParent:false,
-                path:"/second",
+                path:"/home/menuManagement",
               }
             ]
           }

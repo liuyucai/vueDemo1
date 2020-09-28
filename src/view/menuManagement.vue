@@ -76,7 +76,6 @@
               :titles="[ '显示','隐藏']"
               v-model="generateValue"
               :data="generateData">
-
             </el-transfer>
           </template>
         </el-drawer>
@@ -261,9 +260,6 @@
   */
   .view-main-leftTree{
     padding-right: 20px;
-  }
-  .el-table__fixed-right-patch{
-    background: transparent;
   }
 </style>
 <script>

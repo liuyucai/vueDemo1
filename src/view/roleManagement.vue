@@ -63,37 +63,45 @@
                   </el-table-column>
                   <el-table-column
                     v-if="colData[0].istrue"
-                    prop="userName"
-                    label="用户名"
+                    prop="roleName"
+                    label="角色名称"
                     width="120">
                   </el-table-column>
                   <el-table-column
                     v-if="colData[1].istrue"
-                    prop="role"
-                    label="用户角色"
+                    prop="roleCode"
+                    label="角色编码"
                     width="120">
                   </el-table-column>
                   <el-table-column
                     v-if="colData[2].istrue"
+                    prop="roleStatus"
+                    label="角色分类"
+                    width="120">
+                  </el-table-column>
+                  <el-table-column
+                    v-if="colData[3].istrue"
                     prop="createTime"
                     sortable="custom"
                     label="创建时间"
                     width="250">
                   </el-table-column>
                   <el-table-column
-                    v-if="colData[3].istrue"
-                    prop="status"
+                    v-if="colData[4].istrue"
+                    prop="state"
                     label="状态"
-                    :filters="status"
-                    :filter-method="filterTag"
-                    width="120">
+                    :filters="state"
+                    :filter-method="filterTag">
                   </el-table-column>
                   <el-table-column
                     fixed="right"
+                    width="250"
                     label="操作">
                     <template slot-scope="scope">
-                      <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                      <el-button type="text" size="small">编辑</el-button>
+                      <el-button @click="handleClick(scope.row)" type="text" size="small" icon="el-icon-view">查看</el-button>
+                      <el-button type="text" size="small" icon="el-icon-edit">编辑</el-button>
+                      <el-button type="text" size="small" icon="el-icon-delete">删除</el-button>
+                      <el-button type="text" size="small" icon="el-icon-plus">权限</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -121,7 +129,6 @@
                   :titles="[ '显示','隐藏']"
                   v-model="generateValue"
                   :data="generateData">
-
                 </el-transfer>
               </template>
             </el-drawer>
@@ -167,9 +174,7 @@
                          @check="selectRole"
                          @node-click="selectRole">
                 </el-tree>
-
               </el-option>
-              <!--              <el-option label="区域二" value="beijing"></el-option>-->
             </el-select>
           </el-form-item>
         </el-form>
@@ -399,8 +404,9 @@
                 ],
                 // istrue属性存放列的状态
                 colData: [
-                    { title: '用户名', istrue: true },
-                    { title: '用户角色', istrue: true },
+                    { title: '角色名称', istrue: true },
+                    { title: '角色编码', istrue: true },
+                    { title: '角色分类', istrue: true },
                     { title: '创建时间', istrue: true },
                     { title: '状态', istrue: true },
                 ],
@@ -408,37 +414,43 @@
                 generateValue: [],
 
                 direction: 'rtl',
-                status:[{ text: '在线', value: '在线' }, { text: '离线', value: '离线' }],
+                state:[{ text: '在线', value: '在线' }, { text: '离线', value: '离线' }],
                 tableData: [{
-                    userName: '王小虎',
-                    role:'普通用户',
+                    roleName: '王小虎',
+                    roleCode:'CEO',
+                    roleStatus:'管理层',
                     createTime: '2016-05-01 12:20:54',
-                    status: '在线',
+                    state: '在线',
                 }, {
-                    createTime: '2016-05-02 12:20:54',
-                    status: '在线',
-                    userName: '王小虎',
-                    role:'普通用户',
+                    roleName: '王小虎',
+                    roleCode:'CEO',
+                    roleStatus:'管理层',
+                    createTime: '2016-05-01 12:20:54',
+                    state: '在线',
                 }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    status: '在线',
-                    createTime: '2016-05-03 12:20:54',
+                    roleName: '王小虎',
+                    roleCode:'CEO',
+                    roleStatus:'管理层',
+                    createTime: '2016-05-01 12:20:54',
+                    state: '在线',
                 }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-04 12:20:54',
-                    status: '在线',
+                    roleName: '王小虎',
+                    roleCode:'CEO',
+                    roleStatus:'管理层',
+                    createTime: '2016-05-01 12:20:54',
+                    state: '在线',
                 }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-05 12:20:54',
-                    status: '在线',
+                    roleName: '王小虎',
+                    roleCode:'CEO',
+                    roleStatus:'管理层',
+                    createTime: '2016-05-01 12:20:54',
+                    state: '在线',
                 }, {
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-06 12:20:54',
-                    status: '在线',
+                    roleName: '王小虎',
+                    roleCode:'CEO',
+                    roleStatus:'管理层',
+                    createTime: '2016-05-01 12:20:54',
+                    state: '在线',
                 }],
 
                 orgFilterText: '',
@@ -496,9 +508,9 @@
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
             },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
+            // handleClose(key, keyPath) {
+            //     console.log(key, keyPath);
+            // },
             onSubmit() {
                 console.log('submit!');
             },

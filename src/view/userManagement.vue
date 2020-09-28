@@ -100,8 +100,9 @@
                   fixed="right"
                   label="操作">
                   <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                    <el-button type="text" size="small">编辑</el-button>
+                    <el-button @click="handleClick(scope.row)" type="text" size="small" icon="el-icon-view">查看</el-button>
+                    <el-button type="text" size="small" icon="el-icon-edit">编辑</el-button>
+                    <el-button type="text" size="small" icon="el-icon-delete">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -504,9 +505,9 @@ export default {
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
+      // handleClose(key, keyPath) {
+      //   console.log(key, keyPath);
+      // },
       onSubmit() {
           console.log('submit!');
       },

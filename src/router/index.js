@@ -29,28 +29,27 @@ export default new Router({
       component: Home,
       children:[
         {
-          path: '/home/first',
-          name: 'first',
-          component: () => import('@/view/first')
+          path: '/',
+          name: 'index',
+          component: () => import('@/view/index')
+        }, {
+          path: '/home/userManagement',
+          name: 'userManagement',
+          component: () => import('@/view/userManagement')
         },{
-          path: '/home/second',
-          name: 'second',
-          component: () => import('@/view/second')
+          path: '/home/roleManagement',
+          name: 'roleManagement',
+          component: () => import('@/view/roleManagement')
         },{
           path: '/home/orgManagement',
           name: 'orgManagement',
           component: () => import('@/view/orgManagement')
+        },{
+          path: '/home/menuManagement',
+          name: 'menuManagement',
+          component: () => import('@/view/menuManagement')
         }
       ]
     }
-    // ,{
-    //   path: '/first',
-    //   name: 'first',
-    //   component: First
-    // },{
-    //   path: '/second',
-    //   name: 'second',
-    //   component: Second
-    // }
   ]
 })

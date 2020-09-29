@@ -9,8 +9,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 //引入echarts
 // import echarts from 'echarts'
-import echarts from 'echarts/lib/echarts';
-import 'echarts/map/js/china.js';
+import echarts from 'echarts/lib/echarts';  //必须在main.js引入
+//下面这句在地图页面引入
+// import 'echarts/map/js/china.js';
 import china from 'echarts/map/json/china.json'
 
 

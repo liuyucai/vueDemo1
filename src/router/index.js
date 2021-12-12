@@ -48,6 +48,22 @@ export default new Router({
           path: '/home/menuManagement',
           name: 'menuManagement',
           component: () => import('@/view/menuManagement')
+        },{
+          path: '/home/product',
+          name: 'produce',
+          component: () => import('@/view/product')
+        },{
+          path: '/home/device',
+          name: 'device',
+          component: () => import('@/view/device')
+        },{
+          path: '/home/model',
+          name: 'model',
+          component: () => import('@/view/model')
+        },{
+          path: '/home/programme',
+          name: 'model',
+          component: () => import('@/view/programme')
         }
       ]
     }

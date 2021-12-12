@@ -64,7 +64,7 @@
     },
     data() {
       return {
-        fullHeight:document.documentElement.clientHeight
+        fullHeight:document.documentElement.clientHeight-1
       }
     },
     methods: {
@@ -81,6 +81,13 @@
         collapseClose(){
 
       },
-    }
+    },
+    mounted(){
+        let that = this;
+        window.onresize = ()=>{
+            //设置页面的大小
+            that.fullHeight = document.documentElement.clientHeight-1
+        }
+    },
   }
 </script>

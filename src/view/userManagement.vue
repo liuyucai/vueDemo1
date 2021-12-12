@@ -86,7 +86,7 @@
                   prop="createTime"
                   sortable="custom"
                   label="创建时间"
-                  width="250">
+                  width="200">
                 </el-table-column>
                 <el-table-column
                   v-if="colData[3].istrue"
@@ -94,7 +94,7 @@
                   label="状态"
                   :filters="status"
                   :filter-method="filterTag"
-                  width="120">
+                  width="100">
                 </el-table-column>
                 <el-table-column
                   fixed="right"
@@ -191,7 +191,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;

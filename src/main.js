@@ -18,6 +18,10 @@ import china from 'echarts/map/json/china.json'
 //引入创建的VueX
 // import store from './store'
 
+//引入avue
+import Avue from '@smallwei/avue';
+import '@smallwei/avue/lib/index.css';
+
 Vue.config.productionTip = false
 
 //显示地图下面这句必须引入
@@ -27,6 +31,7 @@ Vue.prototype.$echarts = echarts
 
 Vue.use(ElementUI);
 Vue.use(VueAxios,axios);
+Vue.use(Avue);
 
 
 

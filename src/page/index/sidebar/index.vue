@@ -108,7 +108,34 @@
                 path:"/home/menuManagement",
               }
             ]
-          }
+          }, {
+            menuName:"产品管理",
+            id:6,
+            isParent:false,
+            path:"/home/product",
+          },{
+                menuName:"设备管理",
+                id:7,
+                isParent:true,
+                child:[
+                    {
+                        menuName:"设备",
+                        id:15,
+                        isParent:false,
+                        path:"/home/device",
+                    }
+                ]
+          }, {
+                menuName:"模板管理",
+                id:8,
+                isParent:false,
+                path:"/home/model",
+            },{
+                menuName:"节目单管理",
+                id:9,
+                isParent:false,
+                path:"/home/programme",
+            },
         ]
       }
     },

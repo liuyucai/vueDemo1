@@ -23,26 +23,44 @@
               style="width: 100%;text-align: center">
               <el-table-column
                 v-if="colData[0].istrue"
-                prop="userName"
-                label="用户名"
+                prop="menuName"
+                label="菜单名称"
                 width="120">
               </el-table-column>
               <el-table-column
                 v-if="colData[1].istrue"
-                prop="role"
-                label="用户角色"
-                width="120">
+                label="图标"
+                width="80">
+                <template slot-scope="scope">
+                  <i :class="scope.row.menuIcon"></i>
+                </template>
               </el-table-column>
               <el-table-column
                 v-if="colData[2].istrue"
-                prop="createTime"
-                sortable="custom"
-                label="创建时间"
-                width="250">
+                prop="menuIndex"
+                label="排序"
+                width="80">
+              </el-table-column>
+              <el-table-column
+                v-if="colData[1].istrue"
+                prop="menuUrl"
+                label="路径"
+                width="80">
+              </el-table-column>
+              <el-table-column
+                v-if="colData[1].istrue"
+                prop="menuType"
+                label="类型"
+                width="80">
+              </el-table-column>
+              <el-table-column
+                v-if="colData[1].istrue"
+                prop="roleMark"
+                label="权限标识">
               </el-table-column>
               <el-table-column
                 v-if="colData[3].istrue"
-                prop="status"
+                prop="state"
                 label="状态"
                 :filters="status"
                 :filter-method="filterTag"
@@ -322,53 +340,50 @@
                 status:[{ text: '在线', value: '在线' }, { text: '离线', value: '离线' }],
                 tableData: [{
                     id: 1,
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-01 12:20:54',
-                    status: '在线',
+                    menuName: '组织管理',
+                    menuIcon:'el-icon-edit',
+                    menuIndex: '0',
+                    menuUrl: '/index',
+                    menuType: '菜单',
+                    roleMark: 'zhuzhiMenu',
+                    state: '开启',
                 }, {
                     id: 2,
-                    createTime: '2016-05-02 12:20:54',
-                    status: '在线',
-                    userName: '王小虎',
-                    role:'普通用户',
-                }, {
-                    id: 3,
-                    userName: '王小虎',
-                    role:'普通用户',
-                    status: '在线',
-                    createTime: '2016-05-03 12:20:54',
-                }, {
-                    id: 4,
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-04 12:20:54',
-                    status: '在线',
+                    menuName: '用户管理',
+                    menuIcon:'el-icon-edit',
+                    menuIndex: '0',
+                    menuUrl: '/index',
+                    menuType: '菜单',
+                    roleMark: 'zhuzhiMenu',
+                    state: '开启',
                     children:[{
-                        id: 5,
-                        userName: '王小虎1',
-                        role:'普通用户',
-                        createTime: '2016-05-05 12:20:54',
-                        status: '离线',
+                        id: 3,
+                        menuName: '添加用户',
+                        menuIcon:'el-icon-delete',
+                        menuIndex: '0',
+                        menuUrl: '/index',
+                        menuType: '权限',
+                        roleMark: 'zhuzhiMenu',
+                        state: '开启',
                     }, {
-                        id: 6,
-                        userName: '王小虎2',
-                        role:'普通用户',
-                        createTime: '2016-05-06 12:20:54',
-                        status: '在线',
+                        id: 4,
+                        menuName: '删除用户',
+                        menuIcon:'el-icon-delete',
+                        menuIndex: '0',
+                        menuUrl: '/index',
+                        menuType: '权限',
+                        roleMark: 'zhuzhiMenu',
+                        state: '开启',
                     }]
                 }, {
-                    id: 7,
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-05 12:20:54',
-                    status: '在线',
-                }, {
-                    id: 8,
-                    userName: '王小虎',
-                    role:'普通用户',
-                    createTime: '2016-05-06 12:20:54',
-                    status: '在线',
+                    id: 5,
+                    menuName: '系统设置',
+                    menuIcon:'el-icon-delete',
+                    menuIndex: '0',
+                    menuUrl: '/index',
+                    menuType: '菜单',
+                    roleMark: 'zhuzhiMenu',
+                    state: '开启',
                 }],
                 roleTreeData: [{
                     id: 1,

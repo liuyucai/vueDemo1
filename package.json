@@ -10,9 +10,13 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@smallwei/avue": "^2.8.14",
     "axios": "^0.19.2",
     "echarts": "^4.9.0",
     "element-ui": "^2.13.2",
+    "jquery": "^3.6.0",
+    "stylus": "^0.55.0",
+    "stylus-loader": "^6.1.0",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.5",
     "vue-router": "^3.0.1",

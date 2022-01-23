@@ -1,5 +1,8 @@
 import $ from 'jquery'
-export var abc = "000";
+
+export var modelData = {
+  name:"liuyucai",
+};
 export var modelJq = $(document).ready(function(){
   var IF_MOUSE_DOWN = false;
   var MOUSE_DOWN_CLIENT_X = 0;
@@ -32,16 +35,8 @@ export var modelJq = $(document).ready(function(){
 
     ]
   };
-
-  var area ={
-    name: "",
-    z_index:0,
-    left:0,
-    top:0,
-    width: 0,
-    height: 0,
-    background_color: "#fff",
-  };
+  //当前正在编辑的区域
+  var currentArea = null;
 
   $("#model-main").mousedown(function (e) {
 
@@ -51,16 +46,24 @@ export var modelJq = $(document).ready(function(){
         MOUSE_DOWN_CLIENT_X = e.offsetX;
         MOUSE_DOWN_CLIENT_Y = e.offsetY;
 
+        areaNum = model.area.length + 1;
         let areaId = "area-item"+areaNum;
 
         $("#model-main").append("<div class='area-item' id="+ areaId +" style='border:1px solid #c3c3c3;height:0;width:0;position: absolute;pointer-events:none;'></div>");
 
-        let area = new area();
-        // area.name =
-        console.log(area);
+        var area = createArea();
+
+        area.top = MOUSE_DOWN_CLIENT_Y;
+        area.left = MOUSE_DOWN_CLIENT_X;
+
+        currentArea = area;
+
+        model.area.push(currentArea);
+
+        console.log(model);
+
         $("#"+areaId).css("top",MOUSE_DOWN_CLIENT_Y+"px");
         $("#"+areaId).css("left",MOUSE_DOWN_CLIENT_X+"px");
-        abc = 123;
       }
     }else if(e.button ==2){ //右键
 
@@ -73,19 +76,29 @@ export var modelJq = $(document).ready(function(){
     e.stopPropagation();
     if(IF_MOUSE_DOWN && operate == "add"){
       let areaId = "area-item"+areaNum;
+      let areaWidth = 0;
+      let areaHeight = 0;
       if((e.offsetY-MOUSE_DOWN_CLIENT_Y)>0 && (e.offsetX-MOUSE_DOWN_CLIENT_X)>0){
         if(e.offsetX < $("#model-main").width()){
-          $("#"+areaId).css("width",e.offsetX-MOUSE_DOWN_CLIENT_X+"px");
+          areaWidth = e.offsetX-MOUSE_DOWN_CLIENT_X;
+          // $("#"+areaId).css("width",areaWidth+"px");
         }else{
-          $("#"+areaId).css("width",$("#model-main").width()-MOUSE_DOWN_CLIENT_X+"px");
+          areaWidth = $("#model-main").width()-MOUSE_DOWN_CLIENT_X;
+          // $("#"+areaId).css("width",areaWidth+"px");
         }
         if(e.offsetY < $("#model-main").height()){
-          $("#"+areaId).css("height",e.offsetY-MOUSE_DOWN_CLIENT_Y+"px");
+          areaHeight = e.offsetY-MOUSE_DOWN_CLIENT_Y;
+          // $("#"+areaId).css("height",areaHeight+"px");
         }else {
-          $("#"+areaId).css("height",$("#model-main").height()-MOUSE_DOWN_CLIENT_Y+"px");
+          areaHeight = $("#model-main").height()-MOUSE_DOWN_CLIENT_Y;
+          // $("#"+areaId).css("height",$("#model-main").height()-MOUSE_DOWN_CLIENT_Y+"px");
         }
+        $("#"+areaId).css("width",areaWidth+"px");
+        $("#"+areaId).css("height",areaHeight+"px");
+        currentArea.width = areaWidth;
+        currentArea.height = areaHeight;
       }
-      console.log(e.offsetX+","+e.offsetY+","+$("#model-main").height());
+      // console.log(e.offsetX+","+e.offsetY+","+$("#model-main").height());
     }
 
     if(IF_MOUSE_DOWN && operate == "select"){
@@ -180,13 +193,16 @@ export var modelJq = $(document).ready(function(){
     IF_MOUSE_DOWN = false;
     MOUSE_DOWN_CLIENT_X = 0;
     MOUSE_DOWN_CLIENT_Y = 0;
-    areaNum++;
+    // areaNum++;
     // console.log(e);
     $(".area-item").css("pointer-events","auto");
     $(selectArea).css("pointer-events","auto");
     $("#edit-select-box").css("pointer-events","auto");
     $("#edit-select").css("pointer-events","auto");
     $("#edit-select-box").css("cursor","default");
+
+    console.log(currentArea);
+    console.log(model);
   });
 
   $(document).mouseup(function (e) {
@@ -300,6 +316,32 @@ export var modelJq = $(document).ready(function(){
     }
   });
 
+  function createModel() {
+
+    var model = {
+      width:0,
+      height:0,
+      area:[
+
+      ]
+    };
+    return model;
+  }
+
+  function createArea() {
+    var area ={
+      name: "",
+      z_index:0,
+      left:0,
+      top:0,
+      width: 0,
+      height: 0,
+      background_color: "#fff",
+    };
+
+    return area;
+  }
+
   function changeAreaTop(e) {
     console.log(e.offsetY);
     let areaHeight = $(selectArea)[0].offsetTop - e.offsetY + $(selectArea).height();
@@ -346,5 +388,5 @@ export var modelJq = $(document).ready(function(){
 });
 
 export const saveModelJq = function () {
-  console.log("654321");
+  console.log(modelData.name);
 }

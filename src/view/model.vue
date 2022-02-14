@@ -23,7 +23,8 @@
             <div id="model-main"
                  @activeAreaChange='selectActiveArea'
                  @afterInitModel="afterInitModel"
-                 style="border:1px solid #c3c3c3;width: 400px;height: 225px;background: #fff;margin: 0 auto;position: relative">
+                 @modelZoomChange="modelZoomChange"
+                 style="border:1px solid #c3c3c3;width: 400px;height: 225px;background: #fff;margin: 0 auto;position: relative;overflow: hidden">
               <div id="edit-select" style="position:absolute">
                 <div id="edit-select-box" style="position:relative">
                   <div id="edit-select-point-top" class="select-point" style="position:absolute;top:-4px;"></div>
@@ -90,8 +91,7 @@
                         <el-slider v-model="modelData.zoom"></el-slider>
                       </el-col>
                       <el-col :span="9" style="text-align: right;vertical-align: bottom">
-                        <el-button style="font-size: 10px;padding: 4px">自适应</el-button>
-<!--                        <span style="font-size: 12px;">自适应</span>-->
+                        <el-button style="font-size: 10px;padding: 4px" @click="autoSetModelEditSize">自适应</el-button>
                       </el-col>
                     </el-row>
                   </el-form-item>
@@ -209,6 +209,9 @@
             // saveModelJq();
             // LycIDS.init();
         },
+        autoSetModelEditSize(){
+            LycIDS.autoSetModelEditSize($("#container-main").width(),$("#container-main").height())
+        },
         /**
          * 自定义事件，jq触发
          */
@@ -218,7 +221,11 @@
         afterInitModel(){
             this.modelData = LycIDS.getModelData();
             console.log(this.modelData);
+        },
+        modelZoomChange(){
+            this.modelData.zoom = LycIDS.getModelData().zoom
         }
+
     },
     mounted() {
         let height = document.getElementsByClassName("view-body")[0].clientHeight;

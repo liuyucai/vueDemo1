@@ -8,6 +8,8 @@ export var LycIDS = {
     height:0,
     zoom:100,
     background:'',
+    editWidth:0,
+    editHeight:0,
     area:[
 
     ]
@@ -56,6 +58,31 @@ export var LycIDS = {
   setModelBackground:function(background){
     this.model.background = background;
     // $("#model-main").css("width",this.model.height + "px");
+  },
+
+  autoSetModelEditSize:function(visualWidth,visualHeight){
+
+    visualWidth = visualWidth -2;
+    visualHeight = visualHeight -2;
+    if(this.model.width > visualWidth && this.model.height > visualHeight){
+      let minModelWidth = this.model.width/100;
+      let minModelHeight = this.model.height/100;
+
+      let ratioWidth = Math.floor(visualWidth/minModelWidth);
+      let ratioHeight = Math.floor(visualHeight/minModelHeight);
+      if(ratioWidth>ratioHeight){
+        this.model.editWidth = minModelWidth*ratioHeight;
+        this.model.editHeight = minModelHeight*ratioHeight
+        this.model.zoom = ratioHeight;
+      }else{
+        this.model.editWidth = minModelWidth*ratioWidth;
+        this.model.editHeight = minModelHeight*ratioWidth
+        this.model.zoom = ratioWidth;
+      }
+      $("#model-main").css("width",this.model.editWidth + "px");
+      $("#model-main").css("height",this.model.editHeight + "px");
+      $('#model-main').get(0).dispatchEvent(new Event('modelZoomChange'));
+    }
   },
 
   getModelData:function(){

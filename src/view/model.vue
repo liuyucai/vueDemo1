@@ -21,9 +21,12 @@
 <!--              您的浏览器不支持 HTML5 canvas 标签。-->
 <!--            </canvas>-->
             <div id="model-main"
-                 @activeAreaChange='selectActiveArea'
+                 @selectModel="selectModel"
+                 @activeAreaChange='activeAreaChange'
                  @afterInitModel="afterInitModel"
                  @modelZoomChange="modelZoomChange"
+                 @createAreaChange="createAreaChange"
+                 @afterCreateArea="afterCreateArea"
                  style="border:1px solid #c3c3c3;width: 400px;height: 225px;background: #fff;margin: 0 auto;position: relative;overflow: hidden">
               <div id="edit-select" style="position:absolute">
                 <div id="edit-select-box" style="position:relative">
@@ -46,9 +49,13 @@
               <div style="background: #fff;" v-if="ifOperateArea">
                 <el-form label-width="80px" size="mini">
                   <el-form-item label="区域名称:">
-                    <el-select v-model="activeArea.name" placeholder="请选择区域名称">
-                      <el-option label="区域一" value="shanghai"></el-option>
-                      <el-option label="区域二" value="beijing"></el-option>
+                    <el-select v-model="activeArea.name" placeholder="请选择区域名称" @focus="getAreaNames">
+                      <el-option
+                        v-for="item in areaNames"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="宽度:">
@@ -181,7 +188,8 @@
               height:0,
               zoom:100,
               background:'',
-          }
+          },
+          areaNames:[]
       }
     },
     watch: {
@@ -215,8 +223,25 @@
         /**
          * 自定义事件，jq触发
          */
-        selectActiveArea(){
+        activeAreaChange(){
             console.log("123");
+            this.ifOperateArea = true;
+            //怎么知道是哪个区域点击了
+            //获取选中的区域
+            this.activeArea = LycIDS.getActiveArea();
+        },
+
+        createAreaChange(){
+            this.ifOperateArea = true;
+            this.activeArea = LycIDS.getCreateArea();
+        },
+
+        afterCreateArea(){
+            this.ifOperateArea = false;
+        },
+
+        selectModel(){
+            this.ifOperateArea = false;
         },
         afterInitModel(){
             this.modelData = LycIDS.getModelData();
@@ -224,15 +249,25 @@
         },
         modelZoomChange(){
             this.modelData.zoom = LycIDS.getModelData().zoom
+        },
+        getAreaNames(){
+            let areaNames = LycIDS.getAreaNames();
+            let editAreaNames = [];
+            for(let i=0;i<areaNames.length;i++){
+                editAreaNames.push({
+                    value:areaNames[i],
+                    label:areaNames[i]
+                })
+            }
+            this.areaNames = editAreaNames;
         }
-
     },
     mounted() {
         let height = document.getElementsByClassName("view-body")[0].clientHeight;
         // document.getElementsByClassName("view-container")[0].style.height = height -20 + 'px';
         // let bb = modelJq();
         LycIDS.init(this.modelData);
-        this.activeArea = LycIDS.activeArea;
+        this.activeArea = LycIDS.getActiveArea();
     }
   }
 

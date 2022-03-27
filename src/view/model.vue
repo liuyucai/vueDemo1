@@ -180,7 +180,16 @@
     data () {
       return {
           msg: '主页',
-          activeArea:{},
+          activeArea:{
+              id:"",
+              name: "",
+              left: 0,
+              top: 0,
+              width: 0,
+              height: 0,
+              z_index: 0,
+              background_color: "#fff",
+          },
           ifOperateArea:false,
           modelData:{
               proportion:'',
@@ -201,7 +210,8 @@
         },
         activeArea:{
             handler:function () {
-                LycIDS.setModel(this.modelData);
+                console.log(this.activeArea);
+                LycIDS.setArea(this.activeArea);
             },
             deep:true
         }

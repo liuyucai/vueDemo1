@@ -27,10 +27,12 @@ export var LycIDS = {
   getName: function () {
     return this.name;
   },
+
+  //***********************************修改模板数据*******************
   setModel: function (model) {
     console.log("模板数据改变")
     if (model.width != this.model.width) {
-      this.setModelWidth(model.width)
+      this.setModelWidth(model.width);
     }
     if (model.height != this.model.height) {
       this.setModelHeight(model.height)
@@ -44,7 +46,6 @@ export var LycIDS = {
     if (model.background != this.model.background) {
       this.setModelBackground(model.background)
     }
-
   },
 
   setModelWidth: function (width) {
@@ -113,9 +114,77 @@ export var LycIDS = {
     }
   },
 
+  //***********************************修改区域数据*******************
   setArea: function (area) {
-    console.log("区域信息改变")
+    debugger;
+    if(!area){
+      return;
+    }
+    let index = area.id - 1;
+    if(!LycIDS.model.area[index]){
+      return;
+    }
+      this.setAreaName(area.id,area.name);
+
+      this.setAreaLeft(area.id,area.left);
+
+      this.setAreaTop(area.id,area.top);
+
+      this.setAreaWidth(area.id,area.width);
+
+      this.setAreaHeight(area.id,area.height);
+
+      this.setAreaZIndex(area.id,area.z_index);
+
+      this.setAreaBackgroundColor(area.id,area.background_color);
+
+      //修改选中框的大小
+
+      console.log("区域信息改变")
   },
+
+  setAreaName(areaId,name){
+    let index = areaId - 1;
+    LycIDS.model.area[index].name = name;
+  },
+
+  setAreaLeft(areaId,left){
+    let index = areaId - 1;
+    LycIDS.model.area[index].left = left;
+    let displayLeft = left/LycIDS.model.zoom* 100;
+    $("#area-item" + areaId).css("left", displayLeft + "px");
+  },
+
+  setAreaTop(areaId,top){
+    let index = areaId - 1;
+    LycIDS.model.area[index].top = top;
+    let displayTop = top/LycIDS.model.zoom* 100;
+    $("#area-item" + areaId).css("top", displayTop + "px");
+  },
+
+  setAreaWidth(areaId,width){
+    let index = areaId - 1;
+    LycIDS.model.area[index].width = width;
+    let displayWidth = width/LycIDS.model.zoom* 100;
+    $("#area-item" + areaId).css("width", displayWidth + "px");
+  },
+
+  setAreaHeight(areaId,height){
+    let index = areaId - 1;
+    LycIDS.model.area[index].height = height;
+    let displayHeight = height/LycIDS.model.zoom* 100;
+    $("#area-item" + areaId).css("height", displayHeight + "px");
+  },
+  setAreaZIndex(areaId,z_index){
+    let index = areaId - 1;
+    LycIDS.model.area[index].z_index = z_index;
+    $("#area-item" + areaId).css("z_index", z_index);
+  },
+  setAreaBackgroundColor(areaId,background_color){
+    let index = areaId - 1;
+    LycIDS.model.area[index].background_color = background_color;
+  },
+
   setActiveArea: function (activeArea) {
     this.activeArea = activeArea;
     //jQuery触发自定义事件 activeAreaChange
@@ -160,6 +229,9 @@ export var LycIDS = {
       hasAreaName = false;
     }
 
+    if(editAreaNames.length == 0){
+      editAreaNames = areaNames
+    }
     return editAreaNames;
   },
 
@@ -232,17 +304,22 @@ export var LycIDS = {
           areaNum = LycIDS.model.area.length + 1;
           let areaId = "area-item" + areaNum;
 
-          $("#model-main").append("<div class='area-item' id=" + areaId + " data-index = \'" + LycIDS.model.area.length + "\' style='border:1px solid #c3c3c3;height:0;width:0;position: absolute;pointer-events:none;'></div>");
+          //设置该区域的名称
+          let areaName = LycIDS.getAreaNames()[0];
+          $("#model-main").append("<div class='area-item' id=" + areaId + " data-index = \'" + LycIDS.model.area.length + "\' style='border:1px solid #c3c3c3;height:0;width:0;position: absolute;pointer-events:none;background:#EEF3F8;font-size:40px;text-align: center;color:#c3c3c3'>"+areaName+"</div>");
 
           var area = createArea();
 
+          area.id = areaNum;
           area.top = Math.ceil(MOUSE_DOWN_CLIENT_Y / LycIDS.model.zoom * 100);
           area.left = Math.ceil(MOUSE_DOWN_CLIENT_X / LycIDS.model.zoom * 100);
-
+          area.name=areaName;
           currentArea = area;
 
           $("#" + areaId).css("top", MOUSE_DOWN_CLIENT_Y + "px");
           $("#" + areaId).css("left", MOUSE_DOWN_CLIENT_X + "px");
+
+
 
           LycIDS.createAreaChange(currentArea);
         }
@@ -281,8 +358,9 @@ export var LycIDS = {
           }
           $("#" + areaId).css("width", areaWidth + "px");
           $("#" + areaId).css("height", areaHeight + "px");
+          $("#" + areaId).css("line-height", areaHeight + "px");
           currentArea.width = Math.ceil(areaWidth / LycIDS.model.zoom * 100);
-          currentArea.height = Math.ceil(areaWidth / LycIDS.model.zoom * 100);
+          currentArea.height = Math.ceil(areaHeight / LycIDS.model.zoom * 100);
 
           LycIDS.createAreaChange(currentArea);
         }
@@ -545,12 +623,13 @@ export var LycIDS = {
 
     function createArea() {
       var area = {
+        id:"",
         name: "",
-        z_index: 0,
         left: 0,
         top: 0,
         width: 0,
         height: 0,
+        z_index: 0,
         background_color: "#fff",
       };
 
@@ -563,6 +642,7 @@ export var LycIDS = {
       if (areaHeight > 0) {
         $(selectArea).css("height", areaHeight + "px");
         $(selectArea).css("top", e.offsetY + "px");
+        $(selectArea).css("line-height", areaHeight + "px");
         $("#edit-select").css("top", e.offsetY + "px");
         $("#edit-select-box").css("height", areaHeight + "px");
         $("#edit-select-point-right").css("top", areaHeight / 2 + "px");
@@ -574,10 +654,10 @@ export var LycIDS = {
     }
 
     function changeAreaBottom(e) {
-      console.log(e.offsetY);
       if (e.offsetY > $(selectArea)[0].offsetTop) {
         let areaHeight = e.offsetY - $(selectArea)[0].offsetTop;
         $(selectArea).css("height", areaHeight + "px");
+        $(selectArea).css("line-height", areaHeight + "px");
         $("#edit-select-box").css("height", areaHeight + "px");
         $("#edit-select-point-right").css("top", areaHeight / 2 + "px");
         $("#edit-select-point-left").css("top", areaHeight / 2 + "px");

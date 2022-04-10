@@ -99,6 +99,7 @@ export var LycIDS = {
         //改变区域的大小
         $("#area-item" + (i + 1)).css("width", this.model.area[i].width / 100 * this.model.zoom);
         $("#area-item" + (i + 1)).css("height", this.model.area[i].height / 100 * this.model.zoom);
+        $("#area-item" + (i + 1)).css("line-height", this.model.area[i].height / 100 * this.model.zoom + "px");
       }
       $('#model-main').get(0).dispatchEvent(new Event('modelZoomChange'));
     }
@@ -116,7 +117,8 @@ export var LycIDS = {
 
   //***********************************修改区域数据*******************
   setArea: function (area) {
-    debugger;
+
+    console.log("************设置区域大小*****************")
     if(!area){
       return;
     }
@@ -153,6 +155,7 @@ export var LycIDS = {
     LycIDS.model.area[index].left = left;
     let displayLeft = left/LycIDS.model.zoom* 100;
     $("#area-item" + areaId).css("left", displayLeft + "px");
+    $("#edit-select").css("left", displayLeft + "px");
   },
 
   setAreaTop(areaId,top){
@@ -160,6 +163,7 @@ export var LycIDS = {
     LycIDS.model.area[index].top = top;
     let displayTop = top/LycIDS.model.zoom* 100;
     $("#area-item" + areaId).css("top", displayTop + "px");
+    $("#edit-select").css("top", displayTop + "px");
   },
 
   setAreaWidth(areaId,width){
@@ -167,6 +171,10 @@ export var LycIDS = {
     LycIDS.model.area[index].width = width;
     let displayWidth = width/LycIDS.model.zoom* 100;
     $("#area-item" + areaId).css("width", displayWidth + "px");
+
+    $("#edit-select-box").css("width", displayWidth + "px");
+    $("#edit-select-point-top").css("left", displayWidth/2+ "px");
+    $("#edit-select-point-bottom").css("left", displayWidth/2+ "px");
   },
 
   setAreaHeight(areaId,height){
@@ -174,12 +182,20 @@ export var LycIDS = {
     LycIDS.model.area[index].height = height;
     let displayHeight = height/LycIDS.model.zoom* 100;
     $("#area-item" + areaId).css("height", displayHeight + "px");
+    $("#area-item" + areaId).css("line-height", displayHeight + "px");
+
+    $("#edit-select-box").css("height", displayHeight + "px");
+    $("#edit-select-point-right").css("top", displayHeight/2+ "px");
+    $("#edit-select-point-left").css("top", displayHeight/2+ "px");
+
+
   },
   setAreaZIndex(areaId,z_index){
     let index = areaId - 1;
     LycIDS.model.area[index].z_index = z_index;
     $("#area-item" + areaId).css("z_index", z_index);
   },
+
   setAreaBackgroundColor(areaId,background_color){
     let index = areaId - 1;
     LycIDS.model.area[index].background_color = background_color;
@@ -319,16 +335,13 @@ export var LycIDS = {
           $("#" + areaId).css("top", MOUSE_DOWN_CLIENT_Y + "px");
           $("#" + areaId).css("left", MOUSE_DOWN_CLIENT_X + "px");
 
-
-
           LycIDS.createAreaChange(currentArea);
         }
 
         //如果有选中了区域，则取消选中
-        if (operate == "select" && $(this).parents("#edit-select").length == 0 && !$(this).hasClass("area-item")) {
+        if (operate == "select" && $(this).parents("#edit-select").length == 0 && !$(this).hasClass("area-item"))  {
           CHANGE_AREA_TYPE = null;
           $("#edit-select").css("display", "none");
-
           //切换模板选择
           $('#model-main').get(0).dispatchEvent(new Event('selectModel'));
         }
@@ -414,6 +427,7 @@ export var LycIDS = {
         if (CHANGE_AREA_TYPE == "AREA_ALL") {
 
           console.log($(this));
+          debugger;
           let moveX = e.offsetX - MOUSE_DOWN_CLIENT_X;
           let moveY = e.offsetY - MOUSE_DOWN_CLIENT_Y;
           let targetX = $(selectArea)[0].offsetLeft + moveX;
@@ -486,7 +500,13 @@ export var LycIDS = {
 
     $("#edit-select-box").mousedown(function (e) {
       e.stopPropagation();
-    })
+
+      if(e.button == 2){
+        $("#delete-area-box").css("display","block");
+        $("#delete-area-box").css("top",e.offsetY + "px");
+        $("#delete-area-box").css("left",e.offsetX + "px");
+      }
+    });
 
     $(document).mouseup(function (e) {
       if (e.button == 0) { //左键
@@ -599,15 +619,16 @@ export var LycIDS = {
 
     $("#edit-select-box").mousedown(function (e) {
       if (e.button == 0 && operate == "select") { //左键
-        console.log("33333");
         CHANGE_AREA_TYPE = "AREA_ALL";
-        $("#edit-select-box").css("cursor", "move");
-        // $(selectArea).css("pointer-events", "none");
+
         $("#edit-select-box").css("pointer-events", "none");
-        // $("#edit-select").css("pointer-events", "none");
         IF_MOUSE_DOWN = true;
         MOUSE_DOWN_CLIENT_X = e.offsetX;
         MOUSE_DOWN_CLIENT_Y = e.offsetY;
+        // MOUSE_DOWN_CLIENT_X = e.offsetX + $("#edit-select").position().left;
+        // MOUSE_DOWN_CLIENT_Y = e.offsetY+ $("#edit-select").position().top;
+        // console.log(MOUSE_DOWN_CLIENT_X);
+        // console.log(MOUSE_DOWN_CLIENT_Y);
       }
     });
 

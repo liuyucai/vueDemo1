@@ -29,7 +29,7 @@
                  @afterCreateArea="afterCreateArea"
                  style="border:1px solid #c3c3c3;width: 400px;height: 225px;background: #fff;margin: 0 auto;position: relative;overflow: hidden">
               <div id="edit-select" style="position:absolute">
-                <div id="edit-select-box" style="position:relative">
+                <div id="edit-select-box" style="position:relative" oncontextmenu="return false;">
                   <div id="edit-select-point-top" class="select-point" style="position:absolute;top:-4px;"></div>
                   <div id="edit-select-point-rightTop" class="select-point" style="position:absolute;top:-3px;right:-3px"></div>
                   <div id="edit-select-point-right" class="select-point" style="position:absolute;right: -4px;"></div>
@@ -38,6 +38,10 @@
                   <div id="edit-select-point-leftBottom" class="select-point" style="position:absolute;left: -3px;bottom: -3px"></div>
                   <div id="edit-select-point-left" class="select-point" style="position:absolute;left: -4px;"></div>
                   <div id="edit-select-point-leftTop" class="select-point" style="position:absolute;left: -3px;top: -3px"></div>
+
+                  <div id="delete-area-box" style="position: absolute;display: none;border: 1px solid #ccc;padding: 5px 0;width: 60px;font-size:14px;cursor: pointer;text-align: center;background: #fff;z-index: 99999" oncontextmenu="return false;">
+                    <div class="operate-item" style="height: 20px;line-height: 20px;">删除</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -59,19 +63,19 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="宽度:">
-                    <el-input v-model="activeArea.width"></el-input>
+                    <el-input v-model="activeArea.width" @input="changeAreaWidth"></el-input>
                   </el-form-item>
                   <el-form-item label="高度:">
-                    <el-input v-model="activeArea.height"></el-input>
+                    <el-input v-model="activeArea.height" @input="changeAreaHeight"></el-input>
                   </el-form-item>
                   <el-form-item label="top:">
-                    <el-input v-model="activeArea.top"></el-input>
+                    <el-input v-model="activeArea.top" @input="changeAreaTop"></el-input>
                   </el-form-item>
                   <el-form-item label="left:">
-                    <el-input v-model="activeArea.left"></el-input>
+                    <el-input v-model="activeArea.left" @input="changeAreaLeft"></el-input>
                   </el-form-item>
                   <el-form-item label="z-index:">
-                    <el-input v-model="activeArea.zIndex"></el-input>
+                    <el-input v-model="activeArea.zIndex" @input="changeAreaZIndex"></el-input>
                   </el-form-item>
                 </el-form>
               </div>
@@ -167,6 +171,11 @@
     cursor: ne-resize;
   }
 
+  #delete-area-box .operate-item:hover{
+    color: #39cccc;
+    background: #e8e8e8;
+  }
+
 </style>
 <script>
   import $ from 'jquery'
@@ -208,13 +217,13 @@
             },
             deep:true
         },
-        activeArea:{
-            handler:function () {
-                console.log(this.activeArea);
-                LycIDS.setArea(this.activeArea);
-            },
-            deep:true
-        }
+        // activeArea:{
+        //     handler:function () {
+        //         console.log(this.activeArea);
+        //         LycIDS.setArea(this.activeArea);
+        //     },
+        //     deep:true
+        // }
     },
     methods: {
         mouseDownCanvas(event) {
@@ -239,6 +248,26 @@
             //怎么知道是哪个区域点击了
             //获取选中的区域
             this.activeArea = LycIDS.getActiveArea();
+        },
+
+        changeAreaWidth(width){
+            LycIDS.setAreaWidth(this.activeArea.id,width);
+        },
+
+        changeAreaHeight(height){
+            LycIDS.setAreaHeight(this.activeArea.id,height);
+        },
+
+        changeAreaTop(top){
+            LycIDS.setAreaTop(this.activeArea.id,top);
+        },
+
+        changeAreaLeft(left){
+            LycIDS.setAreaLeft(this.activeArea.id,left);
+        },
+
+        changeAreaZIndex(zindex){
+            LycIDS.setAreaZIndex(this.activeArea.id,zindex);
         },
 
         createAreaChange(){

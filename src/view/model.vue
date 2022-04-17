@@ -10,7 +10,6 @@
               <div class="model-operate-item" id="add-opt">
                 <i class="el-icon-plus"></i>
               </div>
-
             </div>
           </el-aside>
           <el-main id="container-main" style="margin: 10px;margin-right:0;padding-top: 0;">
@@ -27,7 +26,7 @@
                  @modelZoomChange="modelZoomChange"
                  @createAreaChange="createAreaChange"
                  @afterCreateArea="afterCreateArea"
-                 style="border:1px solid #c3c3c3;width: 400px;height: 225px;background: #fff;margin: 0 auto;position: relative;overflow: hidden">
+                 style="border:1px solid #c3c3c3;width: 400px;height: 225px;background: #fff;margin: 0 auto;position: relative;overflow: hidden;user-select: none;">
               <div id="edit-select" style="position:absolute">
                 <div id="edit-select-box" style="position:relative" oncontextmenu="return false;">
                   <div id="edit-select-point-top" class="select-point" style="position:absolute;top:-4px;"></div>
@@ -39,8 +38,8 @@
                   <div id="edit-select-point-left" class="select-point" style="position:absolute;left: -4px;"></div>
                   <div id="edit-select-point-leftTop" class="select-point" style="position:absolute;left: -3px;top: -3px"></div>
 
-                  <div id="delete-area-box" style="position: absolute;display: none;border: 1px solid #ccc;padding: 5px 0;width: 60px;font-size:14px;cursor: pointer;text-align: center;background: #fff;z-index: 99999" oncontextmenu="return false;">
-                    <div class="operate-item" style="height: 20px;line-height: 20px;">删除</div>
+                  <div id="delete-area-box" style="position: fixed;display: none;border: 1px solid #ccc;padding: 5px 0;width: 60px;font-size:14px;cursor: pointer;text-align: center;background: #fff;z-index: 99999" oncontextmenu="return false;">
+                    <div class="operate-item" style="height: 20px;line-height: 20px;" @click="deleteArea">删除</div>
                   </div>
                 </div>
               </div>
@@ -110,6 +109,18 @@
                     <el-input v-model="modelData.background"></el-input>
                   </el-form-item>
                 </el-form>
+
+                <div class="all-area-box">
+                  <div style="height: 20px;line-height: 20px;text-align: left;padding-top: 10px;border-bottom: 1px solid #ccc;font-size: 14px">所有区域</div>
+                  <div style="height: 150px;overflow-y:auto">
+                    <div v-for="area in areaList" :key="area.id" style="padding: 5px 10px" class="show-area-item">
+                      <div class="clearfix">
+                        <div style="float: left">{{area.name}}</div>
+                        <div style="float: right;font-size: 12px;cursor:pointer" @click="deleteArea(area.id)">删除</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </el-main>
             <el-footer height="50px" style="padding: 10px">
@@ -175,7 +186,21 @@
     color: #39cccc;
     background: #e8e8e8;
   }
-
+  .show-area-item:hover{
+    color: #39cccc;
+    background: #f0f2f5;
+  }
+  .clearfix{
+    content: "";
+    clear: both;
+    display: block;
+  }
+  .clearfix:before,.clearfix:after{
+    content: "";
+    clear: both;
+    display: block;
+    visibility: hidden;
+  }
 </style>
 <script>
   import $ from 'jquery'
@@ -207,7 +232,8 @@
               zoom:100,
               background:'',
           },
-          areaNames:[]
+          areaNames:[],
+          areaList:[],
       }
     },
     watch: {
@@ -299,6 +325,12 @@
                 })
             }
             this.areaNames = editAreaNames;
+        },
+        deleteArea(areaId){
+            LycIDS.deleteArea(areaId);
+        },
+        getAreaList(){
+            this.areaList = LycIDS.getAreas();
         }
     },
     mounted() {
@@ -307,6 +339,8 @@
         // let bb = modelJq();
         LycIDS.init(this.modelData);
         this.activeArea = LycIDS.getActiveArea();
+
+        this.getAreaList();
     }
   }
 

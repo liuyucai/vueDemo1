@@ -62,7 +62,23 @@ export var LycIDS = {
   },
   setModelZoom: function (zoom) {
     this.model.zoom = zoom;
-    // $("#model-main").css("width",this.model.height + "px");
+
+    this.model.editWidth = this.model.width /100 * this.model.zoom
+    this.model.editHeight = this.model.height /100 * this.model.zoom
+
+    $("#model-main").css("width", this.model.editWidth + "px");
+    $("#model-main").css("height", this.model.editHeight + "px");
+
+    //对模板的区域进行处理
+    for (let i = 0; i < this.model.area.length; i++) {
+      //改变区域top,left的值
+      $("#area-item" + (i + 1)).css("left", this.model.area[i].left / 100 * this.model.zoom);
+      $("#area-item" + (i + 1)).css("top", this.model.area[i].top / 100 * this.model.zoom);
+      //改变区域的大小
+      $("#area-item" + (i + 1)).css("width", this.model.area[i].width / 100 * this.model.zoom);
+      $("#area-item" + (i + 1)).css("height", this.model.area[i].height / 100 * this.model.zoom);
+      $("#area-item" + (i + 1)).css("line-height", this.model.area[i].height / 100 * this.model.zoom + "px");
+    }
   },
   setModelBackground: function (background) {
     this.model.background = background;
@@ -190,6 +206,7 @@ export var LycIDS = {
 
 
   },
+
   setAreaZIndex(areaId,z_index){
     let index = areaId - 1;
     LycIDS.model.area[index].z_index = z_index;
@@ -251,6 +268,58 @@ export var LycIDS = {
     return editAreaNames;
   },
 
+  getAreas(){
+    return this.model.area;
+  },
+
+  /**
+   * 删除区域
+   */
+  deleteArea(areaId){
+
+    let deleteAreaIndex = null;
+    if(areaId){
+      deleteAreaIndex = areaId -1;
+    }
+    if(this.activeArea){
+      deleteAreaIndex = this.activeArea;
+    }
+    if(deleteAreaIndex != null && deleteAreaIndex != undefined){
+      //删除数组中的元素
+      this.model.area.splice(deleteAreaIndex,1);
+      for(let i=0;i<this.model.area.length;i++){
+        if(this.model.area[i].id != i+1){
+          this.model.area[i].id = i +1;
+        }
+      }
+
+      //删除页面的元素
+      var areaItems = $("#model-main").find(".area-item");
+      for(let i=0;i<areaItems.length;i++){
+        if($(areaItems[i]).attr("data-index") == deleteAreaIndex){
+          $(areaItems[i]).remove();
+        }
+        if($(areaItems[i]).attr("data-index") > deleteAreaIndex){
+          let index = i-1;
+          let itemId = "area-item" + i;
+          $(areaItems[i]).attr("id",itemId);
+          $(areaItems[i]).attr("data-index",index);
+        }
+      }
+
+      //清楚选中
+      if(!areaId){
+        this.activeArea = null;
+      }
+      $("#delete-area-box").css("display","none");
+      $("#edit-select").css("display", "none");
+    }
+  },
+
+  /**
+   * 初始化模板
+   * @param model
+   */
   initEditModel: function (model) {
 
     if (model.width == '' || model.width == undefined || model.width <= 0) {
@@ -278,9 +347,26 @@ export var LycIDS = {
 
   main: function () {
 
+    /**
+     * 是否鼠标点击了
+     * @type {boolean}
+     */
     var IF_MOUSE_DOWN = false;
+
+    /**
+     * 鼠标点击的坐标
+     * @type {number}
+     */
     var MOUSE_DOWN_CLIENT_X = 0;
     var MOUSE_DOWN_CLIENT_Y = 0;
+
+    var AREA_RIGHT_CLICK = false;
+    /**
+     * 区域移动前的位置
+     * @type {number}
+     */
+    var OLD_OFFSET_LEFT = 0;
+    var OLD_OFFSET_TOP = 0;
 
     var operate = "select";
 
@@ -346,7 +432,6 @@ export var LycIDS = {
           $('#model-main').get(0).dispatchEvent(new Event('selectModel'));
         }
       } else if (e.button == 2) { //右键
-
       } else if (e.button == 1) { //滚轮
 
       }
@@ -380,7 +465,6 @@ export var LycIDS = {
       }
 
       if (IF_MOUSE_DOWN && operate == "select") {
-
         if (CHANGE_AREA_TYPE == "AREA_TOP") {
           changeAreaTop(e);
           LycIDS.setActiveArea(LycIDS.activeArea);
@@ -425,13 +509,16 @@ export var LycIDS = {
           return;
         }
         if (CHANGE_AREA_TYPE == "AREA_ALL") {
-
-          console.log($(this));
-          debugger;
+          console.log("****************"+MOUSE_DOWN_CLIENT_X+","+MOUSE_DOWN_CLIENT_Y+"*********"+e.offsetX+","+e.offsetY);
+          // $("#edit-select").css("left", e.offsetX + "px");
+          // $(selectArea).css("left", e.offsetX + "px");
+          //
+          // $("#edit-select").css("top", e.offsetY + "px");
+          // $(selectArea).css("top", e.offsetY + "px");
           let moveX = e.offsetX - MOUSE_DOWN_CLIENT_X;
           let moveY = e.offsetY - MOUSE_DOWN_CLIENT_Y;
-          let targetX = $(selectArea)[0].offsetLeft + moveX;
-          let targetY = $(selectArea)[0].offsetTop + moveY;
+          let targetX = OLD_OFFSET_LEFT + moveX;
+          let targetY = OLD_OFFSET_TOP + moveY;
           if (moveX < 0) {
             if (targetX >= 0) {
               $("#edit-select").css("left", targetX + "px");
@@ -499,12 +586,42 @@ export var LycIDS = {
     });
 
     $("#edit-select-box").mousedown(function (e) {
-      e.stopPropagation();
+
+      if (e.button == 0 && operate == "select") { //左键
+        e.stopPropagation();
+        CHANGE_AREA_TYPE = "AREA_ALL";
+        $("#edit-select-box").css("pointer-events", "none");
+        $("#edit-select").css("pointer-events", "none");
+        $(selectArea).css("pointer-events", "none");
+        IF_MOUSE_DOWN = true;
+        MOUSE_DOWN_CLIENT_X = $(selectArea)[0].offsetLeft+e.offsetX;
+        MOUSE_DOWN_CLIENT_Y = $(selectArea)[0].offsetTop+e.offsetY;
+
+        OLD_OFFSET_LEFT =  $(selectArea)[0].offsetLeft;
+        OLD_OFFSET_TOP = $(selectArea)[0].offsetTop;
+        console.log(e.offsetX);
+        console.log(e.offsetY);
+        // MOUSE_DOWN_CLIENT_X = e.offsetX + $("#edit-select").position().left;
+        // MOUSE_DOWN_CLIENT_Y = e.offsetY+ $("#edit-select").position().top;
+      }
 
       if(e.button == 2){
+        e.stopPropagation();
+        AREA_RIGHT_CLICK = true;
         $("#delete-area-box").css("display","block");
-        $("#delete-area-box").css("top",e.offsetY + "px");
-        $("#delete-area-box").css("left",e.offsetX + "px");
+        $("#delete-area-box").css("top",e.clientY + "px");
+        $("#delete-area-box").css("left",e.clientX + "px");
+      }
+    });
+
+    $("#delete-area-box").mousedown(function (e) {
+      e.stopPropagation();
+    });
+
+    $(document).mousedown(function (e) {
+      if(AREA_RIGHT_CLICK){
+        $("#delete-area-box").css("display","none");
+        AREA_RIGHT_CLICK = false;
       }
     });
 
@@ -614,21 +731,6 @@ export var LycIDS = {
         $("#edit-select-box").css("pointer-events", "none");
         $("#edit-select").css("pointer-events", "none");
         IF_MOUSE_DOWN = true;
-      }
-    });
-
-    $("#edit-select-box").mousedown(function (e) {
-      if (e.button == 0 && operate == "select") { //左键
-        CHANGE_AREA_TYPE = "AREA_ALL";
-
-        $("#edit-select-box").css("pointer-events", "none");
-        IF_MOUSE_DOWN = true;
-        MOUSE_DOWN_CLIENT_X = e.offsetX;
-        MOUSE_DOWN_CLIENT_Y = e.offsetY;
-        // MOUSE_DOWN_CLIENT_X = e.offsetX + $("#edit-select").position().left;
-        // MOUSE_DOWN_CLIENT_Y = e.offsetY+ $("#edit-select").position().top;
-        // console.log(MOUSE_DOWN_CLIENT_X);
-        // console.log(MOUSE_DOWN_CLIENT_Y);
       }
     });
 
